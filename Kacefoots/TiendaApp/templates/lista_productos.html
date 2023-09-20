@@ -1,0 +1,11 @@
+{% for producto in productos %}
+    <div>
+        <h3>{{ producto.nombre }}</h3>
+        <p>Categoría: {{ producto.categoria }}</p>
+        <p>Precio: {{ producto.precio }}</p>
+        <p>Talle: {{ producto.talle }}</p>
+        <p>Marca: {{ producto.marca }}</p>
+        <p>Modelo: {{ producto.modelo }}</p>
+        <img src="{{ producto.foto.url }}" alt="Foto del producto">
+    </div>
+{% endfor %}
