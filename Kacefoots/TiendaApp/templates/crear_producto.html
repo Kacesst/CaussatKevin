@@ -1,5 +1,24 @@
+{% extends "base.html" %}
+{% block contenidoQueCambia %}
+<main class="container py-5">
+  <section class="card card-body">
+      <h1>Crear producto</h1>
+  <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Seleccionar">
+  </form>
+  {% if producto %}
+      <h2>{{ producto.nombre }}</h2>
+      <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+      <p>{{ producto.descripcion_historica }}</p>
+  {% endif %}
+  </section>
+</main>
+
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Guardar</button>
   </form>
+  {% endblock contenidoQueCambia %}

@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block contenidoQueCambia %}
 <div class="alert alert-primary" role="alert">
     <table class="table table-bordered">
       <thead>
@@ -17,8 +20,10 @@
           <td>{{value.nombre}}</td>
           <td>{{value.precio}}</td>
           <td>{{value.acumulado}}
-            <a href="{% url 'Add' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
-            <a href="{% url 'Sub' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
+            <a href="{% url 'agregar_producto' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
+            <a href="{% url 'eliminar_producto' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
+
+
           </td>
         </tr>
       {% endfor %}
@@ -41,3 +46,4 @@
         <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a></div>
         <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
     </div>
+  {% endblock contenidoQueCambia %}

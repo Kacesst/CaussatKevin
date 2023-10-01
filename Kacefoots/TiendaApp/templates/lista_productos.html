@@ -1,4 +1,8 @@
+{% extends 'base.html' %}
+{% block contenidoQueCambia %}
 {% for producto in productos %}
+<div class="row productos">
+
     <div>
         <h3>{{ producto.nombre }}</h3>
         <p>Categoría: {{ producto.categoria }}</p>
@@ -7,5 +11,17 @@
         <p>Marca: {{ producto.marca }}</p>
         <p>Modelo: {{ producto.modelo }}</p>
         <img src="{{ producto.foto.url }}" alt="Foto del producto">
+        <button class="btn btn-primary" onclick="agregarAlCarrito('{{ producto.id }}')">Agregar al carrito</button>
+        
+        <a class="carousel-control-prev" href="#carouselProductos" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselProductos" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </a>
     </div>
+  </div>
 {% endfor %}
+{% endblock contenidoQueCambia %}

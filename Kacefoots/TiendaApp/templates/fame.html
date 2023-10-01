@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block contenidoQueCambia %}
+
+
+<main class="container py-5">
+    <section class="card card-body">
+        <h1>Salón de la Fama de Zapatillas Históricas</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Seleccionar">
+    </form>
+    {% if zapatilla %}
+        <h2>{{ zapatilla.nombre }}</h2>
+        <img src="{{ zapatilla.imagen.url }}" alt="{{ zapatilla.nombre }}">
+        <p>{{ zapatilla.descripcion_historica }}</p>
+    {% endif %}
+    </section>
+</main>
+    
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+    </ul>
+  </nav>
+{% endblock contenidoQueCambia %}

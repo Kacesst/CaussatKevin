@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Kacefoot</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto" >
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/fame/">Salon de la Fama</a>
+          </li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="/logout/">Logout</a></li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link" href="/signin/">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/signup/">Register</a></li>
+            {% endif %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Carrito
+              </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="/lista_productos/">Agregar productos al carrito</a></li>
+              <li><a class="dropdown-item" href="/carrito/">Finalizar compra</a></li>
+              <li><a href="/carrito/">Productos en el Carrito ({% if cantidad_productos > 0 %}{{ cantidad_productos }}{% else %}0{% endif %})</a>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>

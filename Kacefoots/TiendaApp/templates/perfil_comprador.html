@@ -1,1 +1,7 @@
-<p> Producto: {{ detalle.producto }} - Cantidad: {{ detalle.cantidad }} </p> {% endfor %}
+{% extends "base.html" %}
+{% block contenidoQueCambia %}
+<h1>Perfil del comprador</h1> 
+<p>Nombre: {{ comprador.usuario.first_name }} {{ comprador.usuario.last_name }}</p> 
+<p>Email: {{ comprador.usuario.email }}</p>
+<p>Dirección: {{ comprador.direccion }}</p> 
+{% endblock contenidoQueCambia %}

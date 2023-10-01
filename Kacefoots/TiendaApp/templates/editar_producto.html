@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block contenidoQueCambia %}
+<h1>Editar producto</h1> <form method="post"> {% csrf_token %} {{ form.as_p }} <button type="submit">Guardar cambios</button> </form> 
+{% endblock contenidoQueCambia %}

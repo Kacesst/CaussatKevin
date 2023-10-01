@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block contenidoQueCambia %}
+    <h1>Signin</h1>
+
+    <p>
+        {{ error }}
+    </p>
+
+    <form action="/signin/" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button>
+            Signin
+        </button>
+    </form>
+
+    {% if request.user.is_authenticated %}
+        <p>Bienvenido, {{ request.user.username }}!</p>
+        <a href="/logout/">Cerrar sesión</a>
+    {% else %}
+        <p>Inicia sesión para ver el contenido protegido.</p>
+        <a href="/signin/">Iniciar sesión</a>
+    {% endif %}
+{% endblock contenidoQueCambia %}

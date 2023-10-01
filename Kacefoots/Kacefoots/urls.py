@@ -15,23 +15,34 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib import admin
+from TiendaApp.views import *
 from django.conf import settings
 from django.conf.urls.static import static
-from . import views
-
-
-
-from TiendaApp.views import tienda, agregar_producto, eliminar_producto, restar_producto, limpiar_carrito
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', tienda, name="Tienda"),
-    path('agregar/<int:producto_id>/', agregar_producto, name="Add"),
-    path('eliminar/<int:producto_id>/', eliminar_producto, name="Del"),
-    path('restar/<int:producto_id>/', restar_producto, name="Sub"),
-    path('limpiar/', limpiar_carrito, name="CLS"),
-    path('productos/', views.lista_productos, name='lista_productos'),
-    path('productos/crear/', views.crear_producto, name='crear_producto'),
-    path('productos/editar/<int:pk>/', views.editar_producto, name='editar_producto'),
+    path('', inicio, name='inicio'), 
+    path('tienda/', include('TiendaApp.urls')),
+    path('about/', about, name='about'),
+    path('contacto/', contacto, name='contacto'),
+    path('logout/', signout, name='logout'),
+    path('signin/', signin, name='signin'),
+    path('signup/', signup, name='signup'),
+    path('fame/', fame, name='fame'),
+    path('crear_producto/', crear_producto, name='crear_producto'),
+    path('editar_producto/<int:pk>/', editar_producto, name='editar_producto'),
+    path('restar_producto/<int:producto_id>/', restar_producto, name='restar_producto'),
+    path('carrito/', carrito, name='carrito'),
+    path('lista_productos/', lista_productos, name='lista_productos'),
+    path('agregar_producto/<int:producto_id>/', agregar_producto, name='agregar_producto'),
+    path('eliminar_producto/<int:producto_id>/', eliminar_producto, name='eliminar_producto'),
+    path('limpiar_carrito/', limpiar_carrito, name='CLS'),
+    path('editar_perfil/', editar_perfil, name='editar_perfil'),
+    path('perfil_comprador/', perfil_comprador, name='perfil_comprador'),
+    path('mis_pedidos/', mis_pedidos, name='mis_pedidos'),
+    path('detalle_pedido/<int:pedido_id>/', detalle_pedido, name='detalle_pedido'),   
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    

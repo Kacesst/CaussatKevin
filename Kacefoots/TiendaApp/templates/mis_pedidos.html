@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block contenidoQueCambia %}
+<h1>Mis pedidos</h1> {% if pedidos %} 
+<ul> {% for pedido in pedidos %} 
+    <li>Número de pedido: {{ pedido.numero }} - Total: {{ pedido.total }}</li>
+    {% endfor %} </ul> 
+    {% else %}
+     <p>No tienes pedidos realizados</p>
+    {% endif %} 
+    {% endblock contenidoQueCambia %}
