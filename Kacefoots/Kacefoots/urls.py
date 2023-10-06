@@ -28,6 +28,7 @@ urlpatterns = [
     path('logout/', signout, name='logout'),
     path('signin/', signin, name='signin'),
     path('signup/', signup, name='signup'),
+    path('tienda/', tienda, name='tienda'),
     path('fame/', fame, name='fame'),
     path('crear_producto/', crear_producto, name='crear_producto'),
     path('editar_producto/<int:pk>/', editar_producto, name='editar_producto'),
@@ -41,6 +42,8 @@ urlpatterns = [
     path('perfil_comprador/', perfil_comprador, name='perfil_comprador'),
     path('mis_pedidos/', mis_pedidos, name='mis_pedidos'),
     path('detalle_pedido/<int:pedido_id>/', detalle_pedido, name='detalle_pedido'),   
+    path('agregar_producto/<int:producto_id>/', agregar_producto, name='agregar_producto'),
+    
 ]
 
 if settings.DEBUG:

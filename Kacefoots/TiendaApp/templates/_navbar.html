@@ -11,22 +11,22 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/fame/">Salon de la Fama</a>
+            
           </li>
+          <li class="nav-item"><a class="nav-link" href="/tienda/">Tienda</a></li>
             {% if request.user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="/logout/">Logout</a></li>
+            
+            <li class="nav-item"><a class="nav-link" href="/carrito/">Carrito 🛒 ({% if cantidad_productos > 0 %}{{ cantidad_productos }}{% else %}0{% endif %})</a></li>
             {% else %}
             <li class="nav-item"><a class="nav-link" href="/signin/">Login</a></li>
             <li class="nav-item"><a class="nav-link" href="/signup/">Register</a></li>
             {% endif %}
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Carrito
-              </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="/lista_productos/">Agregar productos al carrito</a></li>
-              <li><a class="dropdown-item" href="/carrito/">Finalizar compra</a></li>
-              <li><a href="/carrito/">Productos en el Carrito ({% if cantidad_productos > 0 %}{{ cantidad_productos }}{% else %}0{% endif %})</a>
-            </ul>
+
+            
+           
+          
+            
           </li>
         </ul>
       </div>

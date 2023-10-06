@@ -1,0 +1,7 @@
+<a href="{% url 'agregar_producto' producto.id %}">Agregar al carrito</a>
+
+<form method="POST" action="{% url 'agregar_producto' producto.id %}">
+    {% csrf_token %}
+    <input type="number" name="cantidad" value="1">
+    <button type="submit">Agregar al carrito</button>
+</form>

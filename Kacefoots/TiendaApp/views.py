@@ -9,14 +9,14 @@ from TiendaApp.Carrito import Carrito
 from TiendaApp.models import Producto
 from .models import Comprador, Pedido, DetallePedido
 from django.contrib.auth.models import User
-from django.db import IntegrityError
+from .models import Slide, Categoria
 from .Carrito import Carrito
+from .data import *
 
 
 def inicio(request):
     return render(request, 'inicio.html') 
-def index(request):
-    return HttpResponse("Index page")
+
 
 def crear_producto(request):
     if request.method == 'POST':
@@ -56,9 +56,10 @@ def tienda(request):
 
 def carrito(request):
     carrito = Carrito(request)
-    productos = carrito.carrito.values()
-    total_carrito = sum(item['acumulado'] for item in productos)
-    return render(request, 'carrito.html', {'productos': productos, 'total_carrito': total_carrito})
+    productos_en_carrito = carrito.carrito.values()
+    total_carrito = sum(item['acumulado'] for item in productos_en_carrito)
+    return render(request, 'carrito.html', {'productos': productos_en_carrito, 'total_carrito': total_carrito})
+
 
 
 def lista_productos(request):
@@ -66,41 +67,36 @@ def lista_productos(request):
     return render(request, 'lista_productos.html', {'productos': productos})
 
 
+def buscar_productos(request):
+    categoria_id = request.GET.get('categoria')
+    productos = Producto.objects.all()
+    if categoria_id:
+        productos = productos.filter(categoria_id=categoria_id)
+    categorias = Categoria.objects.all()
+    return render(request, 'buscar_productos.html', {'productos': productos, 'categorias': categorias})
+
 @login_required
 def agregar_producto(request, producto_id):
-    producto = get_object_or_404(Producto, id=producto_id)
-    cantidad = 1
-    precio_total = producto.precio * cantidad
-    
-    carrito, created = Carrito.objects.get_or_create(usuario=request.user)
-    
-    # Verificar si el producto ya está en el carrito
-    if carrito.detallepedido_set.filter(producto=producto).exists():
-        detalle_pedido = carrito.detallepedido_set.get(producto=producto)
-        detalle_pedido.cantidad += cantidad
-        detalle_pedido.save()
-    else:
-        detalle_pedido = DetallePedido(
-            carrito=carrito,
-            producto=producto.nombre,
-            cantidad=cantidad,
-            precio_unitario=producto.precio
-        )
-        detalle_pedido.save()
-
-    carrito.total += precio_total
-    carrito.save()
-
-    messages.success(request, 'Producto agregado al carrito')
-
+    producto = Producto.objects.get(id=producto_id)
+    carrito = Carrito(request)
+    carrito.agregar(producto)
     return redirect('carrito')
 
+@login_required
 def eliminar_producto(request, producto_id):
-    producto = get_object_or_404(Producto, id=producto_id)
+    producto = Producto.objects.get(id=producto_id)
     carrito = Carrito(request)
     carrito.eliminar(producto)
     return redirect('carrito')
 
+@login_required
+def restar_producto(request, producto_id):
+    producto = Producto.objects.get(id=producto_id)
+    carrito = Carrito(request)
+    carrito.restar(producto)
+    return redirect('carrito')
+
+@login_required
 def limpiar_carrito(request):
     carrito = Carrito(request)
     carrito.limpiar()
@@ -186,14 +182,9 @@ def detalle_pedido(request, pedido_id):
     return render(request, 'detalle_pedido.html',
     {'pedido': pedido, 'detalles': detalles})
     
-def fame(request):
-    if request.method == 'POST':
-        form = ProductoForm(request.POST)
-        if form.is_valid():
-            producto_seleccionado = form.cleaned_data['producto']
-            return render(request, 'fame.html', {'producto': producto_seleccionado})
-    else:
-        form = ProductoForm()
+def tienda (request):
+    slides = Slide.objects.all()
+    return render(request, 'tienda.html', {'slides': slides})
+ 
 
-    return render(request, 'fame.html', {'form': form})
 

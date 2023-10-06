@@ -4,7 +4,7 @@ from TiendaApp.views import *
 
 urlpatterns = [
     path('', views.inicio, name='inicio'),
-    path('index/', views.index, name='index'),
+
     path('about/', views.about, name='about'),
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),

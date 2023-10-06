@@ -1,40 +1,106 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block contenidoQueCambia %}
-
-
-<body>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 align-self-center"><h1 class="display-1">TIENDA</h1></div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 align-self-center">
+            <h1 class="display-1">TIENDA</h1>
         </div>
-        <div class="row">
-            <div class="col-8">
-                <div class="row" style="padding: 10px 0;">
-                    <div class="col-12">
-                        <div class="row">
-                            {% for producto in productos %}
-                            <div class="col-6">
-                                <div class="card" style="height: 10rem; width: 23rem; margin: 5px 0px;">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{producto.nombre}}</h5>
-                                        <p class="card-text">{{producto.categoria}}</p>
-                                        <p class="card-text">{{producto.precio}}</p>
-                                        <a href="{% url 'agregar_producto' producto.id %}" class="btn btn-primary">Agregar al carrito</a>
-
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-8">
+            <div class="row productos">
+                {% for producto in productos %}
+                <div class="col-4">
+                    <div class="card">
+                        <img src="{{ producto.foto.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ producto.nombre }}</h5>
+                            <p class="card-text">Categoría: {{ producto.categoria }}</p>
+                            <p class="card-text">Precio: {{ producto.precio }}</p>
+                            <p class="card-text">Talle: {{ producto.talle }}</p>
+                            <p class="card-text">Marca: {{ producto.marca }}</p>
+                            <p class="card-text">Modelo: {{ producto.modelo }}</p>
+                            <button class="btn btn-primary agregar-carrito" data-producto-id="{{ producto.id }}">Agregar al carrito</button>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-4">
-                {% include "carrito.html" %}
+                {% endfor %}
             </div>
         </div>
+        <div class="col-4">
+            {% if request.user.is_authenticated %}
+            <main style="float:left">
+                <div class="alert alert-primary" role="alert">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="row" colspan="3" class="text-center">CARRITO</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">PRECIO</th>
+                                <th scope="col">CANTIDAD</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for producto in request.session.carrito %}
+                            <tr>
+                                <td>{{ producto.nombre }}</td>
+                                <td>{{ producto.precio }}</td>
+                                <td>{{ producto.cantidad }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% if request.session.carrito %}
+                            <tr>
+                                <th scope="row">Total:</th>
+                                <td colspan="2">$ {{ total_carrito }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="3">
+                                    <div class="alert alert-danger text-center">Sin Productos</div>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+                <div class="row text-center">
+                    <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a></div>
+                    <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
+                </div>
+            </main>
+            {% endif %}
+        </div>
     </div>
-    {% block contenidoQueCambia %}
-    
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.agregar-carrito').click(function() {
+            const productoId = $(this).data('producto-id');
+
+            $.ajax({
+                url: '/agregar_al_carrito/',
+                method: 'POST',
+                data: {
+                    productoId: productoId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    console.log('Producto agregado al carrito');
+                    // Aquí puedes realizar cualquier acción adicional que desees, como actualizar la cantidad en el carrito o mostrar un mensaje de confirmación.
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
+</script>
+{% endblock contenidoQueCambia %}

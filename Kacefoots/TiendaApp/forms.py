@@ -11,9 +11,24 @@ class SignInForm(forms.ModelForm):
         fields = ('username', 'password')
         
 class ProductoForm(forms.ModelForm):
+
     class Meta:
-        model = Producto
-        fields = ['nombre', 'categoria', 'precio', 'talle', 'marca', 'modelo', 'foto']
+        model = Producto 
+        fields = ['nombre', 'categoria', 'precio']
+
+    def clean_nombre(self):
+        nombre = self.cleaned_data['nombre']
+        if len(nombre) < 5:
+            raise forms.ValidationError("El nombre es demasiado corto")
+        return nombre
+
+    def clean(self):
+        cleaned_data = super().clean()
+        nombre = cleaned_data.get('nombre')
+        categoria = cleaned_data.get('categoria')
+        if not nombre and not categoria:
+            raise forms.ValidationError("Nombre y categoría son obligatorios")
+        return cleaned_data
 
 class UserEditForm(UserChangeForm):
 

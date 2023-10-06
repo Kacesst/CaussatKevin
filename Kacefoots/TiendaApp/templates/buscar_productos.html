@@ -1,0 +1,17 @@
+<form method="get" action="{% url 'buscar_productos' %}">
+    <select name="categoria">
+        <option value="">Todas las categorías</option>
+        {% for categoria in categorias %}
+            <option value="{{ categoria.categoria }}">{{ categoria.categoria }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Buscar</button>
+</form>
+
+<ul>
+    {% for producto in productos %}
+        <li>{{ producto.nombre }} - {{ producto.precio }}</li>
+    {% empty %}
+        <li>No se encontraron productos</li>
+    {% endfor %}
+</ul>
