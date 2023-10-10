@@ -1,27 +1,63 @@
 {% extends 'base.html' %}
 {% block contenidoQueCambia %}
-{% for producto in productos %}
-<div class="row productos">
+<form action="?" method="GET">
 
-    <div>
-        <h3>{{ producto.nombre }}</h3>
+  <input type="text" name="nombre" placeholder="Buscar por nombre">
+
+  <select name="categoria">
+    <option value="">Todas las categorías</option>
+    {% for categoria in categorias %}
+      <option value="{{ categoria }}">{{ categoria }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit">Buscar</button>
+
+</form>
+
+<!-- Listado de productos -->
+<div id="productos">
+
+  {% if productos.count == 0 %}
+    <p>No se encontraron resultados</p>
+  {% else %}
+
+    <div class="productos-paginacion">
+      {{ productos.pagination }} 
+    </div>
+
+    {% for producto in productos %}
+
+      <div class="producto-tarjeta">
+        
         <p>Categoría: {{ producto.categoria }}</p>
-        <p>Precio: {{ producto.precio }}</p>
+        <p>Precio:$ {{ producto.precio }}</p>
         <p>Talle: {{ producto.talle }}</p>
         <p>Marca: {{ producto.marca }}</p>
         <p>Modelo: {{ producto.modelo }}</p>
         <img src="{{ producto.foto.url }}" alt="Foto del producto">
-        <button class="btn btn-primary" onclick="agregarAlCarrito('{{ producto.id }}')">Agregar al carrito</button>
-        
-        <a class="carousel-control-prev" href="#carouselProductos" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselProductos" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-          </a>
+        <button
+          onclick="agregarAlCarrito(producto.id)"  
+          data-producto-id="{{ producto.id }}">
+
+          Agregar al carrito
+
+        </button>
+
+
+    {% endfor %}
+
+    <div class="productos-paginacion">
+      {{ productos.pagination }}
     </div>
-  </div>
+
+  {% endif %}
+
+</div>
+{% for producto in productos %}
+
+
+  
 {% endfor %}
 {% endblock contenidoQueCambia %}
+

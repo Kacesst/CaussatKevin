@@ -1,36 +1,52 @@
-/*!
-* Start Bootstrap - Landing Page v6.0.6 (https://startbootstrap.com/theme/landing-page)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-landing-page/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+// Asegúrate de que jQuery se carga primero
+$(document).ready(function() {
+  // Llamado de prueba
+  agregarAlCarrito(1);
 
-function agregarAlCarrito(productoId) {
-    // Realizar una solicitud AJAX para agregar el producto al carrito
-    // utilizando el ID del producto
-    
-    // Crear el objeto XMLHttpRequest
-    var xhr = new XMLHttpRequest();
-    
-    // Configurar la solicitud
-    xhr.open('POST', '/agregar_producto/' + productoId + '/');
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    
-    // Manejar la respuesta de la solicitud
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            // La solicitud fue exitosa
-            // Redirigir al usuario a la página de confirmación
-            window.location.href = '/confirmacion/';
-        } else {
-            // La solicitud falló
-            // Mostrar un mensaje de error al usuario
-            alert('No se pudo agregar el producto al carrito. Por favor, inténtalo de nuevo.');
-        }
-    };
-    
-    // Enviar la solicitud
-    xhr.send();
-}
+  // Manejar clic en la imagen para mostrar en grande
+  $('.card-img-top').click(function() {
+      const imagenSrc = $(this).attr('src');
+      $('#imagen-grande').attr('src', imagenSrc);
+      $('#imagen-en-grande').css('display', 'block');
+  });
 
+  // Función para cerrar la imagen en grande
+  function cerrarImagen() {
+      $('#imagen-en-grande').css('display', 'none');
+  }
+
+  // Función para agregar producto al carrito
+  function agregarAlCarrito(productoId) {
+      console.log('Agregando producto:', productoId);
+
+      fetch(`/agregar-producto/${productoId}/`)
+          .then(response => response.json())
+          .then(data => {
+              // Actualizar carrito en frontend
+              console.log('Producto agregado', data);
+
+              // Puedes realizar acciones adicionales en el frontend aquí
+          });
+  }
+
+  // Manejar clic en el botón "Agregar al carrito"
+  $('.agregar-carrito').click(function() {
+      const productoId = $(this).data('producto-id');
+
+      $.ajax({
+          url: '/agregar_al_carrito/',
+          method: 'POST',
+          data: {
+              productoId: productoId,
+              csrfmiddlewaretoken: '{{ csrf_token }}' // Asegúrate de que el token CSRF esté disponible en tu template
+          },
+          success: function(response) {
+              console.log('Producto agregado al carrito');
+              // Aquí puedes realizar cualquier acción adicional que desees, como actualizar la cantidad en el carrito o mostrar un mensaje de confirmación.
+          },
+          error: function(xhr, status, error) {
+              console.error(error);
+          }
+      });
+  });
+});

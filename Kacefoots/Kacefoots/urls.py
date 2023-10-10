@@ -44,6 +44,7 @@ urlpatterns = [
     path('detalle_pedido/<int:pedido_id>/', detalle_pedido, name='detalle_pedido'),   
     path('agregar_producto/<int:producto_id>/', agregar_producto, name='agregar_producto'),
     
+    
 ]
 
 if settings.DEBUG:

@@ -1,7 +1,25 @@
-<a href="{% url 'agregar_producto' producto.id %}">Agregar al carrito</a>
+{% extends 'base.html' %}
 
-<form method="POST" action="{% url 'agregar_producto' producto.id %}">
-    {% csrf_token %}
-    <input type="number" name="cantidad" value="1">
-    <button type="submit">Agregar al carrito</button>
-</form>
+{% block contenidoQueCambia %}
+
+<!-- Filtros y búsqueda --> <!-- Listado de productos --> <div id="productos">
+{% if productos.count == 0 %}
+
+<!-- no hay resultados -->
+{% else %}
+{% for producto in productos %}
+
+  <div class="producto-tarjeta">
+
+    <!-- detalles del producto -->
+
+    <a href="{% url 'agregar_producto' producto.id %}">
+      Agregar al carrito
+    </a>
+
+  </div>
+
+{% endfor %}{% endif %}
+
+</div>
+{% endblock %}

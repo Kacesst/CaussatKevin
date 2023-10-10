@@ -15,14 +15,19 @@
                 <div class="col-4">
                     <div class="card">
                         <img src="{{ producto.foto.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                        <div id="imagen-en-grande" class="modal">
+                                    <span class="cerrar" onclick="cerrarImagen()">&times;</span>
+                                    <img class="modal-contenido" id="imagen-grande">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">{{ producto.nombre }}</h5>
                             <p class="card-text">Categoría: {{ producto.categoria }}</p>
-                            <p class="card-text">Precio: {{ producto.precio }}</p>
+                            <p class="card-text">Precio:USD {{ producto.precio }}</p>
                             <p class="card-text">Talle: {{ producto.talle }}</p>
                             <p class="card-text">Marca: {{ producto.marca }}</p>
                             <p class="card-text">Modelo: {{ producto.modelo }}</p>
                             <button class="btn btn-primary agregar-carrito" data-producto-id="{{ producto.id }}">Agregar al carrito</button>
+                            
                         </div>
                     </div>
                 </div>

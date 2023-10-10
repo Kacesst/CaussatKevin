@@ -7,9 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from TiendaApp.Carrito import Carrito
 from TiendaApp.models import Producto
-from .models import Comprador, Pedido, DetallePedido
+from .models import Comprador, Pedido, DetallePedido, Producto, Categoria
 from django.contrib.auth.models import User
-from .models import Slide, Categoria
 from .Carrito import Carrito
 from .data import *
 
@@ -61,6 +60,24 @@ def carrito(request):
     return render(request, 'carrito.html', {'productos': productos_en_carrito, 'total_carrito': total_carrito})
 
 
+def productos(request):
+
+  # Filtros
+  nombre = request.GET.get('nombre') 
+  categoria = request.GET.get('categoria')
+
+  # Consulta
+  productos = Producto.objects.filter(
+      nombre__contains=nombre,
+      categoria=categoria
+  )
+
+  # Paginación 
+  productos = productos.paginate(page=request.GET.get('page', 1))
+
+  return render(request, 'lista_productos.html', {
+    'productos': productos
+  })
 
 def lista_productos(request):
     productos = Producto.objects.all()
@@ -182,9 +199,7 @@ def detalle_pedido(request, pedido_id):
     return render(request, 'detalle_pedido.html',
     {'pedido': pedido, 'detalles': detalles})
     
-def tienda (request):
-    slides = Slide.objects.all()
-    return render(request, 'tienda.html', {'slides': slides})
+
  
 
 
